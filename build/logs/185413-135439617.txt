@@ -1,0 +1,5 @@
+2018-12-13 13:54:39.617 DBG Info: 
+
+
+Starting service...
+2018-12-13 13:54:39.617 DBG Critical: Service shutting down -> incorrect number of arg

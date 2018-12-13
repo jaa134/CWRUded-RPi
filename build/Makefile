@@ -35,7 +35,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = ArpCollector1.0.0
-DISTDIR = /home/jacob/Desktop/Projects/CWRUded-Pi/build-ArpCollector-Desktop_Qt_5_11_2_GCC_64bit-Debug/.tmp/ArpCollector1.0.0
+DISTDIR = /home/jacob/Desktop/Projects/CWRUded-Pi/build/.tmp/ArpCollector1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt5.11.2/5.11.2/gcc_64/lib
 LIBS          = $(SUBLIBS) -L/opt/Qt5.11.2/5.11.2/gcc_64/lib -lQt5Network -lQt5Core -lpthread 
@@ -53,16 +53,20 @@ OBJECTS_DIR   = ./
 SOURCES       = ../ArpCollector/main.cpp \
 		../ArpCollector/sniffer.cpp \
 		../ArpCollector/serverconnection.cpp \
-		../ArpCollector/service.cpp moc_sniffer.cpp \
+		../ArpCollector/service.cpp \
+		../ArpCollector/logger.cpp moc_sniffer.cpp \
 		moc_serverconnection.cpp \
-		moc_service.cpp
+		moc_service.cpp \
+		moc_logger.cpp
 OBJECTS       = main.o \
 		sniffer.o \
 		serverconnection.o \
 		service.o \
+		logger.o \
 		moc_sniffer.o \
 		moc_serverconnection.o \
-		moc_service.o
+		moc_service.o \
+		moc_logger.o
 DIST          = /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/common/unix.conf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/common/linux.conf \
@@ -232,7 +236,6 @@ DIST          = /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/qt_config.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_post.prf \
-		../ArpCollector/.qmake.stash \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/toolchain.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -252,10 +255,12 @@ DIST          = /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/lex.prf \
 		../ArpCollector/ArpCollector.pro ../ArpCollector/sniffer.h \
 		../ArpCollector/serverconnection.h \
-		../ArpCollector/service.h ../ArpCollector/main.cpp \
+		../ArpCollector/service.h \
+		../ArpCollector/logger.h ../ArpCollector/main.cpp \
 		../ArpCollector/sniffer.cpp \
 		../ArpCollector/serverconnection.cpp \
-		../ArpCollector/service.cpp
+		../ArpCollector/service.cpp \
+		../ArpCollector/logger.cpp
 QMAKE_TARGET  = ArpCollector
 DESTDIR       = 
 TARGET        = ArpCollector
@@ -436,7 +441,6 @@ Makefile: ../ArpCollector/ArpCollector.pro /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/l
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/qt_config.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/toolchain.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -627,7 +631,6 @@ Makefile: ../ArpCollector/ArpCollector.pro /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/l
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/qt_config.prf:
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf:
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_post.prf:
-.qmake.stash:
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf:
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/toolchain.prf:
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/default_pre.prf:
@@ -663,8 +666,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../ArpCollector/sniffer.h ../ArpCollector/serverconnection.h ../ArpCollector/service.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../ArpCollector/main.cpp ../ArpCollector/sniffer.cpp ../ArpCollector/serverconnection.cpp ../ArpCollector/service.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../ArpCollector/sniffer.h ../ArpCollector/serverconnection.h ../ArpCollector/service.h ../ArpCollector/logger.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../ArpCollector/main.cpp ../ArpCollector/sniffer.cpp ../ArpCollector/serverconnection.cpp ../ArpCollector/service.cpp ../ArpCollector/logger.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -696,12 +699,14 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_sniffer.cpp moc_serverconnection.cpp moc_service.cpp
+compiler_moc_header_make_all: moc_sniffer.cpp moc_serverconnection.cpp moc_service.cpp moc_logger.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_sniffer.cpp moc_serverconnection.cpp moc_service.cpp
-moc_sniffer.cpp: /opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDebug \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+	-$(DEL_FILE) moc_sniffer.cpp moc_serverconnection.cpp moc_service.cpp moc_logger.cpp
+moc_sniffer.cpp: ../ArpCollector/logger.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobal.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig.h \
@@ -723,63 +728,69 @@ moc_sniffer.cpp: /opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDebug \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmutex.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qrefcount.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringliteral.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringalgorithms.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringview.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpair.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringlist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qregexp.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmetatype.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDir \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QLoggingCategory \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlocale.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvector.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpoint.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qset.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QString \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QList \
 		../ArpCollector/sniffer.h \
 		moc_predefs.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc
-	/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc $(DEFINES) --include /home/jacob/Desktop/Projects/CWRUded-Pi/build-ArpCollector-Desktop_Qt_5_11_2_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++ -I/home/jacob/Desktop/Projects/CWRUded-Pi/ArpCollector -I/opt/Qt5.11.2/5.11.2/gcc_64/include -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../ArpCollector/sniffer.h -o moc_sniffer.cpp
+	/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc $(DEFINES) --include /home/jacob/Desktop/Projects/CWRUded-Pi/build/moc_predefs.h -I/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++ -I/home/jacob/Desktop/Projects/CWRUded-Pi/ArpCollector -I/opt/Qt5.11.2/5.11.2/gcc_64/include -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../ArpCollector/sniffer.h -o moc_sniffer.cpp
 
 moc_serverconnection.cpp: ../ArpCollector/sniffer.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDebug \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		../ArpCollector/logger.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobal.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig.h \
@@ -801,53 +812,57 @@ moc_serverconnection.cpp: ../ArpCollector/sniffer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmutex.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qrefcount.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringliteral.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringalgorithms.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringview.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpair.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringlist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qregexp.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmetatype.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDir \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QLoggingCategory \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlocale.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvector.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpoint.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qset.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QString \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QList \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
@@ -884,13 +899,15 @@ moc_serverconnection.cpp: ../ArpCollector/sniffer.h \
 		../ArpCollector/serverconnection.h \
 		moc_predefs.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc
-	/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc $(DEFINES) --include /home/jacob/Desktop/Projects/CWRUded-Pi/build-ArpCollector-Desktop_Qt_5_11_2_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++ -I/home/jacob/Desktop/Projects/CWRUded-Pi/ArpCollector -I/opt/Qt5.11.2/5.11.2/gcc_64/include -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../ArpCollector/serverconnection.h -o moc_serverconnection.cpp
+	/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc $(DEFINES) --include /home/jacob/Desktop/Projects/CWRUded-Pi/build/moc_predefs.h -I/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++ -I/home/jacob/Desktop/Projects/CWRUded-Pi/ArpCollector -I/opt/Qt5.11.2/5.11.2/gcc_64/include -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../ArpCollector/serverconnection.h -o moc_serverconnection.cpp
 
 moc_service.cpp: ../ArpCollector/serverconnection.h \
 		../ArpCollector/sniffer.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDebug \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		../ArpCollector/logger.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobal.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig.h \
@@ -912,53 +929,57 @@ moc_service.cpp: ../ArpCollector/serverconnection.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmutex.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qrefcount.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringliteral.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringalgorithms.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringview.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpair.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringlist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qregexp.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmetatype.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDir \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QLoggingCategory \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlocale.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvector.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpoint.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qset.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QString \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QList \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
@@ -998,28 +1019,12 @@ moc_service.cpp: ../ArpCollector/serverconnection.h \
 		../ArpCollector/service.h \
 		moc_predefs.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc
-	/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc $(DEFINES) --include /home/jacob/Desktop/Projects/CWRUded-Pi/build-ArpCollector-Desktop_Qt_5_11_2_GCC_64bit-Debug/moc_predefs.h -I/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++ -I/home/jacob/Desktop/Projects/CWRUded-Pi/ArpCollector -I/opt/Qt5.11.2/5.11.2/gcc_64/include -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../ArpCollector/service.h -o moc_service.cpp
+	/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc $(DEFINES) --include /home/jacob/Desktop/Projects/CWRUded-Pi/build/moc_predefs.h -I/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++ -I/home/jacob/Desktop/Projects/CWRUded-Pi/ArpCollector -I/opt/Qt5.11.2/5.11.2/gcc_64/include -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../ArpCollector/service.h -o moc_service.cpp
 
-compiler_moc_objc_header_make_all:
-compiler_moc_objc_header_clean:
-compiler_moc_source_make_all:
-compiler_moc_source_clean:
-compiler_yacc_decl_make_all:
-compiler_yacc_decl_clean:
-compiler_yacc_impl_make_all:
-compiler_yacc_impl_clean:
-compiler_lex_make_all:
-compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean 
-
-####### Compile
-
-main.o: ../ArpCollector/main.cpp ../ArpCollector/service.h \
-		../ArpCollector/serverconnection.h \
-		../ArpCollector/sniffer.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDebug \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+moc_logger.cpp: /opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobal.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig.h \
@@ -1041,53 +1046,155 @@ main.o: ../ArpCollector/main.cpp ../ArpCollector/service.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmutex.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qrefcount.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringliteral.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringalgorithms.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringview.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpair.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringlist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qregexp.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmetatype.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDir \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QLoggingCategory \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlocale.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvector.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpoint.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qset.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../ArpCollector/logger.h \
+		moc_predefs.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc
+	/opt/Qt5.11.2/5.11.2/gcc_64/bin/moc $(DEFINES) --include /home/jacob/Desktop/Projects/CWRUded-Pi/build/moc_predefs.h -I/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++ -I/home/jacob/Desktop/Projects/CWRUded-Pi/ArpCollector -I/opt/Qt5.11.2/5.11.2/gcc_64/include -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork -I/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../ArpCollector/logger.h -o moc_logger.cpp
+
+compiler_moc_objc_header_make_all:
+compiler_moc_objc_header_clean:
+compiler_moc_source_make_all:
+compiler_moc_source_clean:
+compiler_yacc_decl_make_all:
+compiler_yacc_decl_clean:
+compiler_yacc_impl_make_all:
+compiler_yacc_impl_clean:
+compiler_lex_make_all:
+compiler_lex_clean:
+compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean 
+
+####### Compile
+
+main.o: ../ArpCollector/main.cpp ../ArpCollector/logger.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QString \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDir \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QLoggingCategory \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../ArpCollector/service.h \
+		../ArpCollector/serverconnection.h \
+		../ArpCollector/sniffer.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QString \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QList \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
@@ -1130,9 +1237,11 @@ main.o: ../ArpCollector/main.cpp ../ArpCollector/service.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../ArpCollector/main.cpp
 
 sniffer.o: ../ArpCollector/sniffer.cpp ../ArpCollector/sniffer.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDebug \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		../ArpCollector/logger.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobal.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig.h \
@@ -1154,61 +1263,67 @@ sniffer.o: ../ArpCollector/sniffer.cpp ../ArpCollector/sniffer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmutex.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qrefcount.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringliteral.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringalgorithms.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringview.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpair.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringlist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qregexp.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmetatype.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDir \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QLoggingCategory \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlocale.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvector.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpoint.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qset.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QString \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QList
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sniffer.o ../ArpCollector/sniffer.cpp
 
 serverconnection.o: ../ArpCollector/serverconnection.cpp ../ArpCollector/serverconnection.h \
 		../ArpCollector/sniffer.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDebug \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		../ArpCollector/logger.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobal.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig.h \
@@ -1230,53 +1345,57 @@ serverconnection.o: ../ArpCollector/serverconnection.cpp ../ArpCollector/serverc
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmutex.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qrefcount.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringliteral.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringalgorithms.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringview.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpair.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringlist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qregexp.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmetatype.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDir \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QLoggingCategory \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlocale.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvector.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpoint.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qset.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QString \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QList \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
@@ -1315,9 +1434,11 @@ serverconnection.o: ../ArpCollector/serverconnection.cpp ../ArpCollector/serverc
 service.o: ../ArpCollector/service.cpp ../ArpCollector/service.h \
 		../ArpCollector/serverconnection.h \
 		../ArpCollector/sniffer.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDebug \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		../ArpCollector/logger.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobal.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig.h \
@@ -1339,53 +1460,57 @@ service.o: ../ArpCollector/service.cpp ../ArpCollector/service.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmutex.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnumeric.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qversiontagging.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qchar.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qrefcount.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qarraydata.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringliteral.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringalgorithms.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringview.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpair.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringlist.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qregexp.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmetatype.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDir \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QLoggingCategory \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlocale.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvariant.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvector.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpoint.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qset.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontiguouscache.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QString \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
-		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QList \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork/QNetworkAccessManager \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
@@ -1424,6 +1549,84 @@ service.o: ../ArpCollector/service.cpp ../ArpCollector/service.h \
 		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbasictimer.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o service.o ../ArpCollector/service.cpp
 
+logger.o: ../ArpCollector/logger.cpp ../ArpCollector/logger.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QObject \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnamespace.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobal.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qconfig.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtcore-config.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlogging.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qflags.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qatomic.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmutex.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qnumeric.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qversiontagging.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstring.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qchar.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearray.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qrefcount.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qarraydata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringliteral.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringview.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiterator.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhashfunctions.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpair.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringlist.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qregexp.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmetatype.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QFile \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfile.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qiodevice.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDir \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdir.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qfileinfo.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qshareddata.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qhash.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QDateTime \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdatetime.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QScopedPointer \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/QLoggingCategory \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qloggingcategory.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qdebug.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qmap.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qtextstream.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qlocale.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvariant.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qvector.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qpoint.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qset.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/Qt5.11.2/5.11.2/gcc_64/include/QtCore/qsharedpointer_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o logger.o ../ArpCollector/logger.cpp
+
 moc_sniffer.o: moc_sniffer.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_sniffer.o moc_sniffer.cpp
 
@@ -1432,6 +1635,9 @@ moc_serverconnection.o: moc_serverconnection.cpp
 
 moc_service.o: moc_service.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_service.o moc_service.cpp
+
+moc_logger.o: moc_logger.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_logger.o moc_logger.cpp
 
 ####### Install
 

@@ -2,7 +2,7 @@
 
 Sniffer::Sniffer(QObject *parent) : QObject(parent) {
     state.numConnections = 0;
-    state.timeStamp = QDateTime::currentDateTime();
+    state.timeStamp = QDateTime::currentDateTimeUtc();
 }
 
 void Sniffer::update() {
@@ -14,16 +14,17 @@ void Sniffer::update() {
         f.close();
 
         if (data.isEmpty()) {
-            qDebug() << "Failed System Call";
+            qDebug(logCritical()) << "Failed System Call";
             emit errored("Failed System Call");
             return;
         }
 
         parseSystemCall(data);
+        qDebug(logInfo()) << "Sniffer Updated...";
         emit updated();
     }
     else {
-        qDebug() << "File IO";
+        qDebug(logCritical()) << "File IO";
         emit errored("File IO");
     }
 }

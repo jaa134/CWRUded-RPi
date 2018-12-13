@@ -2,7 +2,7 @@
 #define SERVERCONNECTION_H
 
 #include "sniffer.h"
-#include <QDebug>
+#include "logger.h"
 #include <QObject>
 #include <QDateTime>
 #include <QString>

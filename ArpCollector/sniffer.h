@@ -1,7 +1,7 @@
 #ifndef SNIFFER_H
 #define SNIFFER_H
 
-#include <QDebug>
+#include "logger.h"
 #include <QObject>
 #include <QDateTime>
 #include <QString>

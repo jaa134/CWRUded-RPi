@@ -1,7 +1,0 @@
-Interface: wlo1, datalink type: EN10MB (Ethernet)
-Starting arp-scan 1.8.1 with 256 hosts (http://www.nta-monitor.com/tools/arp-scan/)
-192.168.1.1	a8:9a:93:96:f7:5a
-192.168.1.9	b0:ca:68:ba:16:e5
-
-2 packets received by filter, 0 packets dropped by kernel
-Ending arp-scan 1.8.1: 256 hosts scanned in 1.736 seconds (147.47 hosts/sec). 2 responded

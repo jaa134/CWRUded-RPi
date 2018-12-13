@@ -17,7 +17,7 @@ void ServerConnection::send(QString uri, QString location_name, Sniffer::State s
     request.setHeader(QNetworkRequest::ContentTypeHeader, QString("application/json"));
 
     manager->put(request, jsonData.toJson());
-    qDebug() << jsonData.toJson();
+    qDebug(logInfo()) << "Sent JSON: " + jsonData.toJson();
     emit sent();
 }
 

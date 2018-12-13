@@ -19,7 +19,8 @@ SOURCES += \
     main.cpp \
     sniffer.cpp \
     serverconnection.cpp \
-    service.cpp
+    service.cpp \
+    logger.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -29,4 +30,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     sniffer.h \
     serverconnection.h \
-    service.h
+    service.h \
+    logger.h
