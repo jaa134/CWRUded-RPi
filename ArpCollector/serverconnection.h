@@ -24,7 +24,7 @@ class ServerConnection : public QObject
 
 public:
     explicit ServerConnection(QObject *parent = nullptr);
-    void send(QString location_name, Sniffer::State state);
+    void send(QString uri, QString location_name, Sniffer::State state);
 
 private:
     QNetworkAccessManager *manager;
@@ -32,6 +32,9 @@ private:
 signals:
     void sent();
     void errored(QString);
+
+private slots:
+    void onReply(QNetworkReply* reply);
 };
 
 #endif // SERVERCONNECTION_H

@@ -2,20 +2,26 @@
 
 ServerConnection::ServerConnection(QObject *parent) : QObject(parent) {
     manager = new QNetworkAccessManager(this);
+
+    connect(manager, &QNetworkAccessManager::finished, this, &ServerConnection::onReply);
 }
 
-void ServerConnection::send(QString location_name, Sniffer::State state) {
+void ServerConnection::send(QString uri, QString location_name, Sniffer::State state) {
     QVariantMap mapData;
     mapData.insert("location_name", location_name);
     mapData.insert("extent", state.numConnections);
     QJsonDocument jsonData = QJsonDocument::fromVariant(mapData);
 
-    QNetworkAccessManager manager;
-
-    QNetworkRequest request(QUrl("http://localhost:5000/api/updateLocation"));
+    QNetworkRequest request;
+    request.setUrl(uri);
     request.setHeader(QNetworkRequest::ContentTypeHeader, QString("application/json"));
 
-    /* QNetworkReply* reply = */ manager.put(request, jsonData.toJson());
-    qDebug() << jsonData;
+    manager->put(request, jsonData.toJson());
+    qDebug() << jsonData.toJson();
+    emit sent();
+}
+
+void ServerConnection::onReply(QNetworkReply* reply) {
+    qDebug() << reply->readAll();
     emit sent();
 }
