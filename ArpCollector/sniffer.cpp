@@ -6,7 +6,7 @@ Sniffer::Sniffer(QObject *parent) : QObject(parent) {
 }
 
 void Sniffer::update() {
-    system(qPrintable("arp-scan -l -g -q > " + fileName));
+    system(qPrintable("arp-scan -l -g -q --retry 5 > " + fileName));
 
     QFile f(fileName);
     if (f.open(QIODevice::ReadOnly)) {
