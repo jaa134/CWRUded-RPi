@@ -23,10 +23,12 @@ class ServerConnection : public QObject
     };
 
 public:
-    explicit ServerConnection(QObject *parent = nullptr);
-    void send(QString uri, QString location_name, Sniffer::State state);
+    explicit ServerConnection(QString uri, QString location_name, QObject *parent = nullptr);
+    void send(Sniffer::State state);
 
 private:
+    const QString uri;
+    const QString location_name;
     QNetworkAccessManager *manager;
 
 signals:

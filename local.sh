@@ -1,2 +1,2 @@
 echo Running client now using local uri...
-build/ArpCollector "http://localhost:5000/api/updateLocation" "Home"
+build/ArpCollector "http://localhost:5000/api/updateLocation" "Home" "10"

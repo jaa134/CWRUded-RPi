@@ -1,15 +1,18 @@
 #include "serverconnection.h"
 
-ServerConnection::ServerConnection(QObject *parent) : QObject(parent) {
-    manager = new QNetworkAccessManager(this);
-
+ServerConnection::ServerConnection(QString uri, QString location_name, QObject *parent)
+    : QObject(parent)
+    , uri(uri)
+    , location_name(location_name)
+{
+    this->manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished, this, &ServerConnection::onReply);
 }
 
-void ServerConnection::send(QString uri, QString location_name, Sniffer::State state) {
+void ServerConnection::send(Sniffer::State state) {
     QVariantMap mapData;
     mapData.insert("location_name", location_name);
-    mapData.insert("extent", state.numConnections);
+    mapData.insert("extent", state.extent);
     QJsonDocument jsonData = QJsonDocument::fromVariant(mapData);
 
     QNetworkRequest request;

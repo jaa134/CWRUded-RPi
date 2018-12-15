@@ -1,11 +1,10 @@
 #include "service.h"
 
-Service::Service(QString uri, QString location_name, QObject *parent) : QObject(parent) {
-    this->uri = uri;
-    this->location_name = location_name;
-
-    this->connection = new ServerConnection(this);
-    this->sniffer = new Sniffer(this);
+Service::Service(QString uri, QString location_name, int avgDeviceCount, QObject *parent)
+    : QObject(parent)
+{
+    this->sniffer = new Sniffer(avgDeviceCount, this);
+    this->connection = new ServerConnection(uri, location_name, this);
 
     this->updateTimer = new QTimer(this);
     this->updateTimer->setInterval(5000);
@@ -25,7 +24,7 @@ void Service::onTimeout() {
 }
 
 void Service::onSnifferUpdated() {
-    this->connection->send(this->uri, this->location_name, this->sniffer->state);
+    this->connection->send(this->sniffer->state);
 }
 
 void Service::onDataSent() {

@@ -1,12 +1,14 @@
 #include "logger.h"
 #include "service.h"
 #include <QCoreApplication>
+#include <QRegExp>
 
 #define ERROR -1
 
 struct Args {
     QString uri;
     QString location;
+    QString avgDeviceCount;
 };
 
 QStringList supportedUris = {
@@ -29,7 +31,7 @@ int main(int argc, char *argv[])
     qDebug(logInfo()) << "\n\n\nStarting service...";
 
     Args args = extractArgs();
-    Service *s = new Service(args.uri, args.location);
+    Service *s = new Service(args.uri, args.location, args.avgDeviceCount.toInt());
     s->start();
 
     return a.exec();
@@ -37,7 +39,7 @@ int main(int argc, char *argv[])
 
 Args extractArgs() {
     int numArgs = QCoreApplication::arguments().length();
-    if (numArgs != 3) {
+    if (numArgs != 4) {
         qDebug(logCritical()) << "Service shutting down -> incorrect number of arg (" + QString::number(numArgs) + ")";
         exit(ERROR);
     }
@@ -45,6 +47,7 @@ Args extractArgs() {
     Args a;
     a.uri = QCoreApplication::arguments().at(1);
     a.location = QCoreApplication::arguments().at(2);
+    a.avgDeviceCount = QCoreApplication::arguments().at(3);
 
     bool isValid = true;
     if (!supportedUris.contains(a.uri)) {
@@ -53,6 +56,11 @@ Args extractArgs() {
     }
     if (!supportedLocations.contains(a.location)) {
         qDebug(logCritical()) << "Not a supported location";
+        isValid = false;
+    }
+    QRegExp re("\\d*");
+    if (!re.exactMatch(a.avgDeviceCount) || a.avgDeviceCount.length() == 0) {
+        qDebug(logCritical()) << "Not a valid device count";
         isValid = false;
     }
 

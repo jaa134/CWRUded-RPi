@@ -20,20 +20,22 @@ class Sniffer : public QObject
 public:
 
     struct State {
-        int numConnections;
         QDateTime timeStamp;
+        QString extent;
     };
 
-    explicit Sniffer(QObject *parent = nullptr);
+    explicit Sniffer(int avgDeviceCount, QObject *parent = nullptr);
     State state;
     void update();
 
 private:
+    const int avgDeviceCount;
     QList<Client> connections;
     const QString fileName = "arp-sync.txt";
     void parseSystemCall(QString);
     bool isValidMacAddress(QString);
     bool isValidIpAddress(QString);
+    void determineState();
 
 signals:
     void updated();

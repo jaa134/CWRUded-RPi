@@ -11,12 +11,10 @@ class Service : public QObject
     Q_OBJECT
 
 public:
-    explicit Service(QString uri, QString location_name, QObject *parent = nullptr);
+    explicit Service(QString uri, QString location_name, int avgDeviceCount, QObject *parent = nullptr);
     void start();
 
 private:
-    QString uri;
-    QString location_name;
     QTimer *updateTimer;
     ServerConnection *connection;
     Sniffer *sniffer;
