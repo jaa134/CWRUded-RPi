@@ -35,10 +35,10 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = ArpCollector1.0.0
-DISTDIR = /home/jacob/Desktop/Projects/CWRUded-Pi/v2/build-ArpCollector-Desktop_Qt_5_11_2_GCC_64bit-Debug/.tmp/ArpCollector1.0.0
+DISTDIR = /home/jacob/Desktop/Projects/CWRUded-Pi/v2/build/.tmp/ArpCollector1.0.0
 LINK          = g++
 LFLAGS        = 
-LIBS          = $(SUBLIBS) -lpcap 
+LIBS          = $(SUBLIBS) -lpcap -pthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -50,8 +50,12 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../ArpCollector/main.cpp 
-OBJECTS       = main.o
+SOURCES       = ../ArpCollector/main.cpp \
+		../ArpCollector/packetcollector.cpp \
+		../ArpCollector/arpsender.cpp 
+OBJECTS       = main.o \
+		packetcollector.o \
+		arpsender.o
 DIST          = /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/common/unix.conf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/common/linux.conf \
@@ -221,6 +225,7 @@ DIST          = /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/qt_config.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_post.prf \
+		../ArpCollector/.qmake.stash \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/toolchain.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -234,9 +239,10 @@ DIST          = /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/exceptions.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/lex.prf \
-		../ArpCollector/ArpCollector.pro sniff_ethernet.h \
-		sniff_ip.h \
-		sniff_tcp.h ../ArpCollector/main.cpp
+		../ArpCollector/ArpCollector.pro packetcollector.h \
+		arpsender.h ../ArpCollector/main.cpp \
+		../ArpCollector/packetcollector.cpp \
+		../ArpCollector/arpsender.cpp
 QMAKE_TARGET  = ArpCollector
 DESTDIR       = 
 TARGET        = ArpCollector
@@ -417,6 +423,7 @@ Makefile: ../ArpCollector/ArpCollector.pro /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/l
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/qt_config.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/toolchain.prf \
 		/opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -601,6 +608,7 @@ Makefile: ../ArpCollector/ArpCollector.pro /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/l
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/qt_config.prf:
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/linux-g++/qmake.conf:
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/exclusive_builds.prf:
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/toolchain.prf:
 /opt/Qt5.11.2/5.11.2/gcc_64/mkspecs/features/default_pre.prf:
@@ -658,10 +666,15 @@ compiler_clean:
 
 ####### Compile
 
-main.o: ../ArpCollector/main.cpp ../ArpCollector/sniff_ethernet.h \
-		../ArpCollector/sniff_ip.h \
-		../ArpCollector/sniff_tcp.h
+main.o: ../ArpCollector/main.cpp ../ArpCollector/packetcollector.h \
+		../ArpCollector/arpsender.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../ArpCollector/main.cpp
+
+packetcollector.o: ../ArpCollector/packetcollector.cpp ../ArpCollector/packetcollector.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o packetcollector.o ../ArpCollector/packetcollector.cpp
+
+arpsender.o: ../ArpCollector/arpsender.cpp ../ArpCollector/arpsender.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o arpsender.o ../ArpCollector/arpsender.cpp
 
 ####### Install
 

@@ -3,12 +3,13 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
-LIBS += -lpcap
+LIBS += -lpcap -pthread
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+    packetcollector.cpp \
+    arpsender.cpp
 
 HEADERS += \
-    sniff_ethernet.h \
-    sniff_ip.h \
-    sniff_tcp.h
+    packetcollector.h \
+    arpsender.h
